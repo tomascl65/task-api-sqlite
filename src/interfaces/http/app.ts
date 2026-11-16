@@ -1,4 +1,6 @@
 import express, { type Request, type Response, type NextFunction } from "express";
+import { notFoundHandler } from "./middlewares/not-found.js";
+import { errorHandler } from "./middlewares/error-handler.js";
 
 let requestCounter = 0;
 
@@ -24,3 +26,6 @@ app.get("/health", (_req: Request, res: Response) => {
 
 // TODO: montar router de tareas aquí
 // app.use("/tasks", taskRouter);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
