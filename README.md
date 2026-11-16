@@ -49,27 +49,29 @@ Ejecución: pendiente (no hay scripts definidos todavía).
 
 ## Endpoints previstos de la API
 
-| Método | Ruta | Propósito |
-|--------|------|-----------|
-| GET | `/tasks` | Listar tareas con filtros y paginación |
-| GET | `/tasks/:id` | Obtener una tarea por su ID |
-| POST | `/tasks` | Crear una nueva tarea |
-| PUT | `/tasks/:id` | Actualizar una tarea existente |
-| DELETE | `/tasks/:id` | Eliminar una tarea por su ID |
+| Método | Ruta         | Propósito                              |
+| ------ | ------------ | -------------------------------------- |
+| GET    | `/tasks`     | Listar tareas con filtros y paginación |
+| GET    | `/tasks/:id` | Obtener una tarea por su ID            |
+| POST   | `/tasks`     | Crear una nueva tarea                  |
+| PUT    | `/tasks/:id` | Actualizar una tarea existente         |
+| DELETE | `/tasks/:id` | Eliminar una tarea por su ID           |
 
 ## Variables de entorno previstas
 
-| Variable | Descripción | Valor por defecto |
-|----------|-------------|-------------------|
-| `PORT` | Puerto del servidor HTTP | `3000` |
-| `NODE_ENV` | Entorno de ejecución (`development`, `test`, `production`) | `development` |
-| `DATABASE_PATH` | Ruta al archivo de base de datos SQLite | `./database.sqlite` |
+| Variable        | Descripción                                                | Valor por defecto   |
+| --------------- | ---------------------------------------------------------- | ------------------- |
+| `PORT`          | Puerto del servidor HTTP                                   | `3000`              |
+| `NODE_ENV`      | Entorno de ejecución (`development`, `test`, `production`) | `development`       |
+| `DATABASE_PATH` | Ruta al archivo de base de datos SQLite                    | `./database.sqlite` |
 
 ## Bitácora de uso de IA
 
 | Tarea | ¿Delegada a IA? | Aceptada/Corregida/Rechazada | Justificación |
-|-------|-----------------|------------------------------|---------------|
+| ----- | --------------- | ---------------------------- | ------------- |
 
 ## Escalabilidad futura
+
+```
 
 ```
