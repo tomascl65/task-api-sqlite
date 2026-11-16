@@ -49,7 +49,9 @@ export const listTasksQuerySchema = z.object({
   sortDir: z.enum(["asc", "desc"]).optional(),
 });
 
-export const taskIdParamSchema = z.string().uuid("el id debe ser un UUID válido");
+export const taskIdParamSchema = z.object({
+  id: z.string().uuid("el id debe ser un UUID válido"),
+});
 
 export type CreateTaskInputDto = z.infer<typeof createTaskSchema>;
 export type UpdateTaskInputDto = z.infer<typeof updateTaskSchema>;
