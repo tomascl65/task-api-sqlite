@@ -1,6 +1,6 @@
-import { TaskRepository } from "../ports/task.repository.js";
-import { Task } from "../../domain/task/task.entity.js";
-import { NotFoundError } from "../../domain/errors/NotFoundError.js";
+import { TaskRepository } from '../ports/task.repository.js';
+import { Task } from '../../domain/task/task.entity.js';
+import { NotFoundError } from '../../domain/errors/NotFoundError.js';
 
 export class GetTaskUseCase {
   constructor(private readonly repository: TaskRepository) {}

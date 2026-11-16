@@ -1,8 +1,8 @@
-import { Status } from "./task.entity.js";
+import { Status } from './task.entity.js';
 
 export const VALID_TRANSITIONS: Record<Status, Status[]> = {
-  pendiente: ["en_curso"],
-  en_curso: ["hecha"],
+  pendiente: ['en_curso'],
+  en_curso: ['hecha'],
   hecha: [],
 };
 

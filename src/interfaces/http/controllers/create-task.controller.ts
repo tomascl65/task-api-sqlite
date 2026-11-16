@@ -1,6 +1,6 @@
-import type { Request, Response } from "express";
-import { CreateTaskUseCase } from "../../../application/use-cases/create-task.js";
-import { CreateTaskInputDto } from "../schemas/task.schemas.js";
+import type { Request, Response } from 'express';
+import { CreateTaskUseCase } from '../../../application/use-cases/create-task.js';
+import { CreateTaskInputDto } from '../schemas/task.schemas.js';
 
 export class CreateTaskController {
   constructor(private readonly createTaskUseCase: CreateTaskUseCase) {}

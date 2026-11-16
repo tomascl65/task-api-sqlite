@@ -1,8 +1,8 @@
-import fs from "fs";
-import path from "path";
-import { openDb, closeDb } from "./connection.js";
+import fs from 'fs';
+import path from 'path';
+import { openDb, closeDb } from './connection.js';
 
-const MIGRATIONS_DIR = path.resolve("migrations");
+const MIGRATIONS_DIR = path.resolve('migrations');
 
 async function readMigrationFiles(): Promise<string[]> {
   if (!fs.existsSync(MIGRATIONS_DIR)) {
@@ -10,7 +10,7 @@ async function readMigrationFiles(): Promise<string[]> {
   }
   return fs
     .readdirSync(MIGRATIONS_DIR)
-    .filter((f) => f.endsWith(".sql"))
+    .filter((f) => f.endsWith('.sql'))
     .sort();
 }
 
@@ -26,9 +26,9 @@ export async function migrate(): Promise<void> {
       );
     `);
 
-    const appliedRows = db
-      .prepare("SELECT nombre FROM schema_migrations")
-      .all() as { nombre: string }[];
+    const appliedRows = db.prepare('SELECT nombre FROM schema_migrations').all() as {
+      nombre: string;
+    }[];
     const applied = new Set(appliedRows.map((r) => r.nombre));
 
     const files = await readMigrationFiles();
@@ -36,17 +36,15 @@ export async function migrate(): Promise<void> {
 
     if (pending.length === 0) {
       // eslint-disable-next-line no-console
-      console.log("No hay migraciones pendientes.");
+      console.log('No hay migraciones pendientes.');
       return;
     }
 
     for (const file of pending) {
       const filePath = path.join(MIGRATIONS_DIR, file);
-      const sql = fs.readFileSync(filePath, "utf-8");
+      const sql = fs.readFileSync(filePath, 'utf-8');
 
-      const insertMigration = db.prepare(
-        "INSERT INTO schema_migrations (nombre) VALUES (?)"
-      );
+      const insertMigration = db.prepare('INSERT INTO schema_migrations (nombre) VALUES (?)');
 
       try {
         const transaction = db.transaction(() => {
@@ -58,7 +56,9 @@ export async function migrate(): Promise<void> {
         console.log(`Aplicada: ${file}`);
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.error(`Fallo aplicando "${file}": ${err instanceof Error ? err.message : String(err)}`);
+        console.error(
+          `Fallo aplicando "${file}": ${err instanceof Error ? err.message : String(err)}`
+        );
         throw new Error(`Migración fallida: ${file}`);
       }
     }

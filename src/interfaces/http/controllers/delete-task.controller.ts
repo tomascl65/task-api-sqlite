@@ -1,5 +1,5 @@
-import type { Request, Response } from "express";
-import { DeleteTaskUseCase } from "../../../application/use-cases/delete-task.js";
+import type { Request, Response } from 'express';
+import { DeleteTaskUseCase } from '../../../application/use-cases/delete-task.js';
 
 export class DeleteTaskController {
   constructor(private readonly deleteTaskUseCase: DeleteTaskUseCase) {}

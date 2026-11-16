@@ -18,27 +18,27 @@ Está **expresamente prohibido** acumular todos los cambios y hacer un único co
 
 El historial del proyecto (`git log --oneline`) debe seguir este orden por capas:
 
-| Prompt / Unidad de trabajo | Mensaje de commit (ejemplo real) |
-|----------------------------|----------------------------------|
-| Commit inicial de sincronización | `chore: initial commit with editorconfig and gitignore` |
-| README inicial con reglas de desarrollo | `docs: agregar README con reglas de desarrollo y bitácora de IA` |
-| Configuración Node.js + TypeScript (ESM) | `feat: configurar proyecto Node.js + TypeScript con ESM` |
-| Variables de entorno validadas con Zod | `feat: configurar y validar variables de entorno con Zod` |
-| Separación app de Express vs arranque del servidor | `feat: separar app de Express del arranque del servidor con /health` |
-| Manejo base de errores HTTP | `feat: manejo base de errores HTTP con formato uniforme` |
-| Capa de conexión SQLite (singleton, PRAGMAs) | `feat: capa de conexión SQLite con singleton y PRAGMAs` |
-| Runner de migraciones SQL (sin ORM) | `feat: runner de migraciones SQL sin ORM` |
-| Migración 001: entidad tasks e índices | `feat: migración 001 con entidad tasks e índices de consulta` |
-| Dominio de tareas (entidad, reglas, puerto) | `feat: dominio de tareas con reglas puras y puerto de repositorio` |
-| Repositorio SQLite (consultas preparadas) | `feat: repositorio SQLite de tareas con consultas preparadas` |
-| Casos de uso de la aplicación | `feat(application): implementar casos de uso de tareas` |
-| Esquemas Zod y middleware de validación | `feat(validation): agregar esquemas Zod y middleware de validación` |
-| Endpoint POST /api/v1/tasks (creación) | `feat(tasks): implementar creación de tareas` |
-| Endpoints GET (listado con filtros + detalle) | `feat(tasks): implementar listado con filtros y detalle` |
-| Endpoint PATCH /api/v1/tasks/:id (actualización) | `feat(tasks): implementar actualización con reglas de transición` |
-| Endpoint DELETE /api/v1/tasks/:id (eliminación) | `feat(tasks): implementar eliminación de tareas` |
-| Pruebas funcionales Vitest + Supertest | `test(tasks): agregar pruebas funcionales de CRUD, filtros y errores` |
-| Documentación de cadencia de commits | `docs: documentar cadencia de commits y mapa del historial` |
+| Prompt / Unidad de trabajo                         | Mensaje de commit (ejemplo real)                                      |
+| -------------------------------------------------- | --------------------------------------------------------------------- |
+| Commit inicial de sincronización                   | `chore: initial commit with editorconfig and gitignore`               |
+| README inicial con reglas de desarrollo            | `docs: agregar README con reglas de desarrollo y bitácora de IA`      |
+| Configuración Node.js + TypeScript (ESM)           | `feat: configurar proyecto Node.js + TypeScript con ESM`              |
+| Variables de entorno validadas con Zod             | `feat: configurar y validar variables de entorno con Zod`             |
+| Separación app de Express vs arranque del servidor | `feat: separar app de Express del arranque del servidor con /health`  |
+| Manejo base de errores HTTP                        | `feat: manejo base de errores HTTP con formato uniforme`              |
+| Capa de conexión SQLite (singleton, PRAGMAs)       | `feat: capa de conexión SQLite con singleton y PRAGMAs`               |
+| Runner de migraciones SQL (sin ORM)                | `feat: runner de migraciones SQL sin ORM`                             |
+| Migración 001: entidad tasks e índices             | `feat: migración 001 con entidad tasks e índices de consulta`         |
+| Dominio de tareas (entidad, reglas, puerto)        | `feat: dominio de tareas con reglas puras y puerto de repositorio`    |
+| Repositorio SQLite (consultas preparadas)          | `feat: repositorio SQLite de tareas con consultas preparadas`         |
+| Casos de uso de la aplicación                      | `feat(application): implementar casos de uso de tareas`               |
+| Esquemas Zod y middleware de validación            | `feat(validation): agregar esquemas Zod y middleware de validación`   |
+| Endpoint POST /api/v1/tasks (creación)             | `feat(tasks): implementar creación de tareas`                         |
+| Endpoints GET (listado con filtros + detalle)      | `feat(tasks): implementar listado con filtros y detalle`              |
+| Endpoint PATCH /api/v1/tasks/:id (actualización)   | `feat(tasks): implementar actualización con reglas de transición`     |
+| Endpoint DELETE /api/v1/tasks/:id (eliminación)    | `feat(tasks): implementar eliminación de tareas`                      |
+| Pruebas funcionales Vitest + Supertest             | `test(tasks): agregar pruebas funcionales de CRUD, filtros y errores` |
+| Documentación de cadencia de commits               | `docs: documentar cadencia de commits y mapa del historial`           |
 
 ## 4. Regla de actualización del README
 

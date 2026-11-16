@@ -1,6 +1,6 @@
-import type { Request, Response } from "express";
-import { UpdateTaskUseCase } from "../../../application/use-cases/update-task.js";
-import { UpdateTaskInputDto } from "../schemas/task.schemas.js";
+import type { Request, Response } from 'express';
+import { UpdateTaskUseCase } from '../../../application/use-cases/update-task.js';
+import { UpdateTaskInputDto } from '../schemas/task.schemas.js';
 
 export class UpdateTaskController {
   constructor(private readonly updateTaskUseCase: UpdateTaskUseCase) {}

@@ -1,5 +1,5 @@
-import type { Request, Response } from "express";
-import { GetTaskUseCase } from "../../../application/use-cases/get-task.js";
+import type { Request, Response } from 'express';
+import { GetTaskUseCase } from '../../../application/use-cases/get-task.js';
 
 export class GetTaskController {
   constructor(private readonly getTaskUseCase: GetTaskUseCase) {}

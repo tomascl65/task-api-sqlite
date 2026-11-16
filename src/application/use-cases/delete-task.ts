@@ -1,5 +1,5 @@
-import { TaskRepository } from "../ports/task.repository.js";
-import { NotFoundError } from "../../domain/errors/NotFoundError.js";
+import { TaskRepository } from '../ports/task.repository.js';
+import { NotFoundError } from '../../domain/errors/NotFoundError.js';
 
 export class DeleteTaskUseCase {
   constructor(private readonly repository: TaskRepository) {}

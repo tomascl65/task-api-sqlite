@@ -111,62 +111,62 @@ dist/                # Salida de compilación TypeScript (generada)
 
 Base: `http://localhost:3000/api/v1`
 
-| Método | Ruta | Propósito | Éxito | Errores |
-|--------|------|-----------|-------|---------|
-| GET | `/health` | Estado del servidor | 200 | — |
-| POST | `/tasks` | Crear una tarea | 201 | 400 (validación) |
-| GET | `/tasks` | Listar tareas con filtros y paginación | 200 | 400 (query inválida) |
-| GET | `/tasks/:id` | Obtener una tarea por ID | 200 | 400 (UUID inválido), 404 (no existe) |
-| PATCH | `/tasks/:id` | Actualizar una tarea parcialmente | 200 | 400 (UUID/body inválido), 404 (no existe), 422 (transición de estado no permitida) |
-| DELETE | `/tasks/:id` | Eliminar una tarea por ID | 204 | 400 (UUID inválido), 404 (no existe) |
+| Método | Ruta         | Propósito                              | Éxito | Errores                                                                            |
+| ------ | ------------ | -------------------------------------- | ----- | ---------------------------------------------------------------------------------- |
+| GET    | `/health`    | Estado del servidor                    | 200   | —                                                                                  |
+| POST   | `/tasks`     | Crear una tarea                        | 201   | 400 (validación)                                                                   |
+| GET    | `/tasks`     | Listar tareas con filtros y paginación | 200   | 400 (query inválida)                                                               |
+| GET    | `/tasks/:id` | Obtener una tarea por ID               | 200   | 400 (UUID inválido), 404 (no existe)                                               |
+| PATCH  | `/tasks/:id` | Actualizar una tarea parcialmente      | 200   | 400 (UUID/body inválido), 404 (no existe), 422 (transición de estado no permitida) |
+| DELETE | `/tasks/:id` | Eliminar una tarea por ID              | 204   | 400 (UUID inválido), 404 (no existe)                                               |
 
 ### Matriz de transiciones de estado
 
-| Desde → Hacia | Permitido |
-|---------------|-----------|
-| pendiente → en_curso | ✅ |
-| en_curso → hecha | ✅ |
-| hecha → cualquiera | ❌ (hecha es terminal) |
-| cualquiera → hecha (directo desde pendiente) | ❌ |
+| Desde → Hacia                                | Permitido              |
+| -------------------------------------------- | ---------------------- |
+| pendiente → en_curso                         | ✅                     |
+| en_curso → hecha                             | ✅                     |
+| hecha → cualquiera                           | ❌ (hecha es terminal) |
+| cualquiera → hecha (directo desde pendiente) | ❌                     |
 
 ## Variables de entorno
 
-| Variable | Descripción | Valor por defecto |
-|----------|-------------|-------------------|
-| `PORT` | Puerto del servidor HTTP | `3000` |
-| `NODE_ENV` | Entorno de ejecución (`development`, `test`, `production`) | `development` |
-| `DATABASE_PATH` | Ruta al archivo de base de datos SQLite | `./database.sqlite` |
-| `DB_JOURNAL_MODE` | Modo de journal de SQLite (`DELETE`, `WAL`, `MEMORY`, `OFF`) | `WAL` |
-| `LOG_LEVEL` | Nivel de logs (`silent`, `error`, `warn`, `info`, `debug`) | `info` |
+| Variable          | Descripción                                                  | Valor por defecto   |
+| ----------------- | ------------------------------------------------------------ | ------------------- |
+| `PORT`            | Puerto del servidor HTTP                                     | `3000`              |
+| `NODE_ENV`        | Entorno de ejecución (`development`, `test`, `production`)   | `development`       |
+| `DATABASE_PATH`   | Ruta al archivo de base de datos SQLite                      | `./database.sqlite` |
+| `DB_JOURNAL_MODE` | Modo de journal de SQLite (`DELETE`, `WAL`, `MEMORY`, `OFF`) | `WAL`               |
+| `LOG_LEVEL`       | Nivel de logs (`silent`, `error`, `warn`, `info`, `debug`)   | `info`              |
 
 Cuando `NODE_ENV=test`, la conexión usa `:memory:` para pruebas aisladas y rápidas.
 
 ## Bitácora de uso de IA
 
-| Tarea | ¿Delegada a IA? | Aceptada/Corregida/Rechazada | Justificación |
-|-------|-----------------|------------------------------|---------------|
-| Commit inicial con .editorconfig y .gitignore | Sí | Aceptada | Estructura base correcta, sin lógica de aplicación. |
-| README inicial con stack, decisiones y placeholders | Sí | Aceptada | Contenido acorde al alcance, sin inventar funcionalidades. |
-| Regla "ningún commit con el proyecto roto" | Sí | Aceptada | Buena práctica de calidad, aplicada en todos los commits. |
-| Configuración Node.js + TypeScript (package.json, tsconfig, ESLint, Prettier, Vitest) | Sí | Aceptada | Stack completo y coherente con ESM, verificable con `tsc --noEmit`. |
-| Variables de entorno validadas con Zod (src/config/env.ts) | Sí | Aceptada | Falla al arrancar si falta o es inválida alguna variable. |
-| Separación app vs server con /health | Sí | Aceptada | Facilita pruebas con Supertest sin puerto real. |
-| Manejo base de errores HTTP (AppError, NotFoundError, middlewares) | Sí | Aceptada | Formato uniforme { code, message, details }, stack oculto en producción. |
-| Capa de conexión SQLite (singleton, PRAGMAs, :memory: en test) | Sí | Aceptada | better-sqlite3, foreign_keys ON, WAL, busy_timeout. |
-| Runner de migraciones SQL (sin ORM, idempotente, transacción por archivo) | Sí | Aceptada | schema_migrations, rollback ante fallo, mensaje con nombre de archivo. |
-| Migración 001: entidad tasks e índices | Sí | Aceptada | CHECK constraint para status, índices para filtros frecuentes. |
-| Dominio de tareas (entity, rules, InvalidStatusTransitionError, puerto TaskRepository) | Sí | Aceptada | Puro, sin dependencias de Express/SQLite, reglas testeables. |
-| Repositorio SQLite (consultas preparadas, mapeo snake_case↔camelCase, updated_at) | Sí | Aceptada | Sin concatenación de strings, errores de SQLite traducidos a dominio. |
-| Casos de uso (create, get, list, update, delete) | Sí | Aceptada | Inyección de repositorio, reglas de dominio, errores tipados. |
-| Esquemas Zod y middleware de validación | Sí | Aceptada | .strict(), 400 con detalle por campo, distinción 400 vs 422. |
-| Endpoint POST /api/v1/tasks | Sí | Aceptada | Controlador delgado, 201 con tarea creada. |
-| Endpoints GET /api/v1/tasks y GET /api/v1/tasks/:id | Sí | Aceptada | Listado con filtros/paginación/meta, detalle 200/404. |
-| asyncHandler para capturar promesas rechazadas en Express 4 | Sí | Corregida | Express 4 no captura async handlers por defecto; wrapper necesario. |
-| Endpoint PATCH /api/v1/tasks/:id | Sí | Aceptada | Actualización parcial, transición validada en caso de uso, 422 si no permitida. |
-| Endpoint DELETE /api/v1/tasks/:id | Sí | Aceptada | 204 sin cuerpo, 404 si no existe, 400 si UUID inválido. |
-| Pruebas funcionales Vitest + Supertest (21 pruebas) | Sí | Aceptada | Contra SQLite en memoria, sin mocks de persistencia. |
-| CONTRIBUTING.md con cadencia de commits | Sí | Aceptada | Documenta un commit por unidad lógica y mapa del historial. |
-| README completo | Sí | Corregida | Se agregaron ejecución, tabla de endpoints, decisiones, escalabilidad, limitaciones y bitácora de IA completa. |
+| Tarea                                                                                  | ¿Delegada a IA? | Aceptada/Corregida/Rechazada | Justificación                                                                                                  |
+| -------------------------------------------------------------------------------------- | --------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Commit inicial con .editorconfig y .gitignore                                          | Sí              | Aceptada                     | Estructura base correcta, sin lógica de aplicación.                                                            |
+| README inicial con stack, decisiones y placeholders                                    | Sí              | Aceptada                     | Contenido acorde al alcance, sin inventar funcionalidades.                                                     |
+| Regla "ningún commit con el proyecto roto"                                             | Sí              | Aceptada                     | Buena práctica de calidad, aplicada en todos los commits.                                                      |
+| Configuración Node.js + TypeScript (package.json, tsconfig, ESLint, Prettier, Vitest)  | Sí              | Aceptada                     | Stack completo y coherente con ESM, verificable con `tsc --noEmit`.                                            |
+| Variables de entorno validadas con Zod (src/config/env.ts)                             | Sí              | Aceptada                     | Falla al arrancar si falta o es inválida alguna variable.                                                      |
+| Separación app vs server con /health                                                   | Sí              | Aceptada                     | Facilita pruebas con Supertest sin puerto real.                                                                |
+| Manejo base de errores HTTP (AppError, NotFoundError, middlewares)                     | Sí              | Aceptada                     | Formato uniforme { code, message, details }, stack oculto en producción.                                       |
+| Capa de conexión SQLite (singleton, PRAGMAs, :memory: en test)                         | Sí              | Aceptada                     | better-sqlite3, foreign_keys ON, WAL, busy_timeout.                                                            |
+| Runner de migraciones SQL (sin ORM, idempotente, transacción por archivo)              | Sí              | Aceptada                     | schema_migrations, rollback ante fallo, mensaje con nombre de archivo.                                         |
+| Migración 001: entidad tasks e índices                                                 | Sí              | Aceptada                     | CHECK constraint para status, índices para filtros frecuentes.                                                 |
+| Dominio de tareas (entity, rules, InvalidStatusTransitionError, puerto TaskRepository) | Sí              | Aceptada                     | Puro, sin dependencias de Express/SQLite, reglas testeables.                                                   |
+| Repositorio SQLite (consultas preparadas, mapeo snake_case↔camelCase, updated_at)      | Sí              | Aceptada                     | Sin concatenación de strings, errores de SQLite traducidos a dominio.                                          |
+| Casos de uso (create, get, list, update, delete)                                       | Sí              | Aceptada                     | Inyección de repositorio, reglas de dominio, errores tipados.                                                  |
+| Esquemas Zod y middleware de validación                                                | Sí              | Aceptada                     | .strict(), 400 con detalle por campo, distinción 400 vs 422.                                                   |
+| Endpoint POST /api/v1/tasks                                                            | Sí              | Aceptada                     | Controlador delgado, 201 con tarea creada.                                                                     |
+| Endpoints GET /api/v1/tasks y GET /api/v1/tasks/:id                                    | Sí              | Aceptada                     | Listado con filtros/paginación/meta, detalle 200/404.                                                          |
+| asyncHandler para capturar promesas rechazadas en Express 4                            | Sí              | Corregida                    | Express 4 no captura async handlers por defecto; wrapper necesario.                                            |
+| Endpoint PATCH /api/v1/tasks/:id                                                       | Sí              | Aceptada                     | Actualización parcial, transición validada en caso de uso, 422 si no permitida.                                |
+| Endpoint DELETE /api/v1/tasks/:id                                                      | Sí              | Aceptada                     | 204 sin cuerpo, 404 si no existe, 400 si UUID inválido.                                                        |
+| Pruebas funcionales Vitest + Supertest (21 pruebas)                                    | Sí              | Aceptada                     | Contra SQLite en memoria, sin mocks de persistencia.                                                           |
+| CONTRIBUTING.md con cadencia de commits                                                | Sí              | Aceptada                     | Documenta un commit por unidad lógica y mapa del historial.                                                    |
+| README completo                                                                        | Sí              | Corregida                    | Se agregaron ejecución, tabla de endpoints, decisiones, escalabilidad, limitaciones y bitácora de IA completa. |
 
 ## Escalabilidad futura
 
@@ -194,15 +194,15 @@ Este proyecto se entrega como parte de una prueba técnica con prioridad en la *
 
 ## Comandos de resumen
 
-| Comando | Propósito |
-|---------|-----------|
-| `npm install` | Instalar dependencias |
-| `cp .env.example .env` | Crear variables de entorno |
-| `npm run migrate` | Aplicar migraciones SQL |
-| `npm run dev` | Servidor en desarrollo con recarga |
-| `npm test` | Ejecutar suite de pruebas |
-| `npm run test:watch` | Pruebas en modo watch |
-| `npm run build` | Compilar TypeScript a `dist/` |
-| `npm start` | Iniciar servidor en producción |
-| `npm run lint` | Linter ESLint |
-| `npm run format` | Formateo con Prettier |
+| Comando                | Propósito                          |
+| ---------------------- | ---------------------------------- |
+| `npm install`          | Instalar dependencias              |
+| `cp .env.example .env` | Crear variables de entorno         |
+| `npm run migrate`      | Aplicar migraciones SQL            |
+| `npm run dev`          | Servidor en desarrollo con recarga |
+| `npm test`             | Ejecutar suite de pruebas          |
+| `npm run test:watch`   | Pruebas en modo watch              |
+| `npm run build`        | Compilar TypeScript a `dist/`      |
+| `npm start`            | Iniciar servidor en producción     |
+| `npm run lint`         | Linter ESLint                      |
+| `npm run format`       | Formateo con Prettier              |

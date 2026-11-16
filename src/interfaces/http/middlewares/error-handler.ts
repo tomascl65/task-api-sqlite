@@ -1,7 +1,7 @@
-import type { ErrorRequestHandler, Request } from "express";
-import { ZodError } from "zod";
-import { AppError } from "../../../domain/errors/AppError.js";
-import { env } from "../../../config/env.js";
+import type { ErrorRequestHandler } from 'express';
+import { ZodError } from 'zod';
+import { AppError } from '../../../domain/errors/AppError.js';
+import { env } from '../../../config/env.js';
 
 type ErrorResponseBody = {
   code: string;
@@ -11,11 +11,11 @@ type ErrorResponseBody = {
 };
 
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
-  const requestId = (_req.headers["x-request-id"] as string | undefined) ?? "unknown";
+  const requestId = (_req.headers['x-request-id'] as string | undefined) ?? 'unknown';
 
   let httpStatus = 500;
-  let code = "INTERNAL_SERVER_ERROR";
-  let message = "Error interno del servidor";
+  let code = 'INTERNAL_SERVER_ERROR';
+  let message = 'Error interno del servidor';
   let details: Record<string, unknown> | undefined;
 
   if (err instanceof AppError) {
@@ -25,17 +25,20 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     details = err.details;
   } else if (err instanceof ZodError) {
     httpStatus = 400;
-    code = "VALIDATION_ERROR";
-    message = "Error de validación";
+    code = 'VALIDATION_ERROR';
+    message = 'Error de validación';
     details = err.flatten();
   } else if (err instanceof Error) {
     message = err.message;
   }
 
-  const isProduction = env.NODE_ENV === "production";
+  const isProduction = env.NODE_ENV === 'production';
 
   // eslint-disable-next-line no-console
-  console.error(`[${requestId}] ${code}: ${message}`, err instanceof Error ? err.stack : String(err));
+  console.error(
+    `[${requestId}] ${code}: ${message}`,
+    err instanceof Error ? err.stack : String(err)
+  );
 
   const body: ErrorResponseBody = { code, message };
   if (details) body.details = details;

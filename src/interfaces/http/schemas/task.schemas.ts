@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-const statusEnum = z.enum(["pendiente", "en_curso", "hecha"]);
+const statusEnum = z.enum(['pendiente', 'en_curso', 'hecha']);
 
 const isoDateString = z.string().refine(
   (value) => {
@@ -10,16 +10,22 @@ const isoDateString = z.string().refine(
     return !isNaN(date.getTime());
   },
   {
-    message: "debe ser una fecha ISO-8601 válida",
+    message: 'debe ser una fecha ISO-8601 válida',
   }
 );
 
 export const createTaskSchema = z
   .object({
-    title: z.string().min(1, "el título es obligatorio").max(200, "el título no puede exceder 200 caracteres"),
-    description: z.string().max(1000, "la descripción no puede exceder 1000 caracteres").optional(),
+    title: z
+      .string()
+      .min(1, 'el título es obligatorio')
+      .max(200, 'el título no puede exceder 200 caracteres'),
+    description: z.string().max(1000, 'la descripción no puede exceder 1000 caracteres').optional(),
     status: statusEnum.optional(),
-    assignee: z.string().min(1, "el responsable es obligatorio").max(200, "el responsable no puede exceder 200 caracteres"),
+    assignee: z
+      .string()
+      .min(1, 'el responsable es obligatorio')
+      .max(200, 'el responsable no puede exceder 200 caracteres'),
     dueDate: isoDateString,
   })
   .strict();
@@ -33,24 +39,21 @@ export const updateTaskSchema = z
     dueDate: isoDateString.optional(),
   })
   .strict()
-  .refine(
-    (data) => Object.keys(data).length > 0,
-    {
-      message: "se debe proporcionar al menos un campo para actualizar",
-    }
-  );
+  .refine((data) => Object.keys(data).length > 0, {
+    message: 'se debe proporcionar al menos un campo para actualizar',
+  });
 
 export const listTasksQuerySchema = z.object({
   status: statusEnum.optional(),
   assignee: z.string().optional(),
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
-  orderBy: z.enum(["created_at", "updated_at", "due_date", "title"]).optional(),
-  orderDir: z.enum(["ASC", "DESC"]).optional(),
+  orderBy: z.enum(['created_at', 'updated_at', 'due_date', 'title']).optional(),
+  orderDir: z.enum(['ASC', 'DESC']).optional(),
 });
 
 export const taskIdParamSchema = z.object({
-  id: z.string().uuid("el id debe ser un UUID válido"),
+  id: z.string().uuid('el id debe ser un UUID válido'),
 });
 
 export type CreateTaskInputDto = z.infer<typeof createTaskSchema>;
