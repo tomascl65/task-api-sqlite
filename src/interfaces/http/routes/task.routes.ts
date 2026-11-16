@@ -11,10 +11,12 @@ import { CreateTaskController } from "../controllers/create-task.controller.js";
 import { GetTaskController } from "../controllers/get-task.controller.js";
 import { ListTasksController } from "../controllers/list-tasks.controller.js";
 import { UpdateTaskController } from "../controllers/update-task.controller.js";
+import { DeleteTaskController } from "../controllers/delete-task.controller.js";
 import { CreateTaskUseCase } from "../../../application/use-cases/create-task.js";
 import { GetTaskUseCase } from "../../../application/use-cases/get-task.js";
 import { ListTasksUseCase } from "../../../application/use-cases/list-tasks.js";
 import { UpdateTaskUseCase } from "../../../application/use-cases/update-task.js";
+import { DeleteTaskUseCase } from "../../../application/use-cases/delete-task.js";
 import { TaskRepository } from "../../../application/ports/task.repository.js";
 import { SqliteTaskRepository } from "../../../infrastructure/sqlite/task.repository.js";
 
@@ -32,6 +34,9 @@ const listTasksController = new ListTasksController(listTasksUseCase);
 
 const updateTaskUseCase = new UpdateTaskUseCase(repository);
 const updateTaskController = new UpdateTaskController(updateTaskUseCase);
+
+const deleteTaskUseCase = new DeleteTaskUseCase(repository);
+const deleteTaskController = new DeleteTaskController(deleteTaskUseCase);
 
 router.post(
   "/",
@@ -56,6 +61,12 @@ router.patch(
   validate(taskIdParamSchema, "params"),
   validate(updateTaskSchema, "body"),
   asyncHandler(updateTaskController.handle)
+);
+
+router.delete(
+  "/:id",
+  validate(taskIdParamSchema, "params"),
+  asyncHandler(deleteTaskController.handle)
 );
 
 export { router as taskRouter };
