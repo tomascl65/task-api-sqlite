@@ -53,6 +53,9 @@ cp .env.example .env
 # 3. Aplicar migraciones (crea la tabla tasks y schema_migrations)
 npm run migrate
 
+# 4. Poblar con datos de ejemplo (opcional)
+npm run seed
+
 # 4. Modo desarrollo (con recarga automática)
 npm run dev
 
@@ -198,8 +201,9 @@ Este proyecto se entrega como parte de una prueba técnica con prioridad en la *
 | ---------------------- | ---------------------------------- |
 | `npm install`          | Instalar dependencias              |
 | `cp .env.example .env` | Crear variables de entorno         |
-| `npm run migrate`      | Aplicar migraciones SQL            |
-| `npm run dev`          | Servidor en desarrollo con recarga |
+| `npm run migrate`      | Aplicar migraciones SQL |
+| `npm run seed` | Poblar con datos de ejemplo (seed.sql) |
+| `npm run dev` | Servidor en desarrollo con recarga |
 | `npm test`             | Ejecutar suite de pruebas          |
 | `npm run test:watch`   | Pruebas en modo watch              |
 | `npm run build`        | Compilar TypeScript a `dist/`      |
