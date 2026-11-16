@@ -45,8 +45,8 @@ export const listTasksQuerySchema = z.object({
   assignee: z.string().optional(),
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
-  sortBy: z.enum(["created_at", "updated_at", "due_date", "title"]).optional(),
-  sortDir: z.enum(["asc", "desc"]).optional(),
+  orderBy: z.enum(["created_at", "updated_at", "due_date", "title"]).optional(),
+  orderDir: z.enum(["ASC", "DESC"]).optional(),
 });
 
 export const taskIdParamSchema = z.object({
