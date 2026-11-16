@@ -22,6 +22,8 @@ export interface TaskFilters {
   search?: string;
   due_before?: string;
   due_after?: string;
+  orderBy?: "created_at" | "updated_at" | "due_date" | "title";
+  orderDir?: "ASC" | "DESC";
 }
 
 export interface Pagination {
