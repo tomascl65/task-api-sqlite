@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "lint": "eslint src tests --ext .ts",
     "format": "prettier --write .",
-    "migrate": "tsx src/infrastructure/sqlite/migrate.ts"
+    "migrate": "tsx src/infrastructure/sqlite/migrate.ts",
+    "seed": "node --import tsx -e \"import { openDb, closeDb } from './src/infrastructure/sqlite/connection.js'; import fs from 'fs'; const db = openDb(); db.exec(fs.readFileSync('seed.sql', 'utf-8')); closeDb(); console.log('Seed aplicado.');\""
   },
   "dependencies": {
     "better-sqlite3": "^11.0.0",
