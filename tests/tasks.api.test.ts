@@ -5,6 +5,12 @@ import fs from 'fs';
 import path from 'path';
 import { Server } from 'http';
 import supertest from 'supertest';
+import { Task } from '../src/domain/task/task.entity.js';
+
+type ErrorDetail = {
+  field: string;
+  message: string;
+};
 
 process.env.NODE_ENV = 'test';
 process.env.DATABASE_PATH = ':memory:';
@@ -61,7 +67,7 @@ describe('Tasks API', () => {
 
       expect(res.status).toBe(400);
       expect(res.body.code).toBe('VALIDATION_ERROR');
-      expect(res.body.details.some((d: any) => d.field === 'title')).toBe(true);
+      expect(res.body.details.some((d: ErrorDetail) => d.field === 'title')).toBe(true);
     });
 
     it('rechaza campo desconocido con 400 (strict)', async () => {
@@ -83,7 +89,7 @@ describe('Tasks API', () => {
 
       expect(res.status).toBe(400);
       expect(res.body.code).toBe('VALIDATION_ERROR');
-      expect(res.body.details.some((d: any) => d.field === 'dueDate')).toBe(true);
+      expect(res.body.details.some((d: ErrorDetail) => d.field === 'dueDate')).toBe(true);
     });
   });
 
@@ -151,7 +157,7 @@ describe('Tasks API', () => {
       const res = await request.get('/api/v1/tasks?orderBy=title&orderDir=ASC');
 
       expect(res.status).toBe(200);
-      const titles = res.body.data.map((t: any) => t.title);
+      const titles = res.body.data.map((t: Task) => t.title);
       expect(titles).toEqual(['Tarea A', 'Tarea B', 'Tarea C']);
     });
   });
